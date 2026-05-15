@@ -1,0 +1,11 @@
+body{
+    text-align: center;
+    overflow: hidden;
+}
+#board{
+    backgroundcolor: linear-gradient(to right, blue 50%, black 50%);
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+}
