@@ -4,7 +4,6 @@ const rowCount = 21;
 const tileSize = 50;
 const boardWidth = columnCount * tileSize;
 const boardHeight = rowCount * tileSize;
-
 let context;
 let blueGhostImage;
 let redGhostImage;
@@ -18,19 +17,18 @@ let pacmanRightImage;
 let pinkGhostImage;
 let scaredGhostImage;
 let wallImage;
-
 const tileMap = [
     "xxxxxxxxxxxxxxxxxxxxx",
     "x        x        x x",
-    "x xx xxx x xxx xx x x",
-    "x                 x x",
-    "x xx x xxxxx x xx x x",
+    "x xx xxx    xx xx x x",
+    "x         xxx     x x",
+    "x xx x xx  x x xx x x",
     "x    x   x   x    x x",
-    "xxxx xx  x  xx xxxx x",
+    "xxxx xx  x     xxxx x",
     "x    x       x    x x",
     "x xx x xx xx x xx x x",
     "x  x   xbbbx   x  x x",
-    "xx x xx x x xx x xx x",
+    "xx x xx x x  x x xx x",
     "x       xox       x x",
     "x xx xx x x xx xx x x",
     "x  x         x  x  x ",
@@ -42,7 +40,6 @@ const tileMap = [
     "x  P             r x x",
     "xxxxxxxxxxxxxxxxxxxxx"
 ];
-
 const walls = new Set();
 const foods = new Set();
 const ghosts = new Set();
@@ -51,16 +48,13 @@ const directions = ['U', 'D', 'L', 'R'];
 let score = 0;
 let lives = 3;
 let gameOver = false;
-
 window.onload = function() {
     board = document.getElementById("board");
     board.width = boardWidth;
     board.height = boardHeight;
     context = board.getContext("2d");
-
     loadImages();
     loadMap();
-
     for (let ghost of ghosts.values()) {
         const newDirection = directions[Math.floor(Math.random() * 4)];
         ghost.updateDirection(newDirection);
@@ -68,69 +62,54 @@ window.onload = function() {
     update();
     document.addEventListener("keydown", movePacman);
 }
-
 function loadImages() {
     wallImage = new Image();
     wallImage.src = "./wall.png";
-
     blueGhostImage = new Image();
     blueGhostImage.src = "./blueGhost.png";
-
     redGhostImage = new Image();
     redGhostImage.src = "./redGhost.png";
-
     orangeGhostImage = new Image();
     orangeGhostImage.src = "./orangeGhost.png";
-
     pinkGhostImage = new Image();
     pinkGhostImage.src = "./pinkGhost.png";
-
     scaredGhostImage = new Image();
     scaredGhostImage.src = "./scaredGhost.png";
-
     cherryImage = new Image();
     cherryImage.src = "./cherry.png";
-
     cherry2Image = new Image();
     cherry2Image.src = "./cherry2.png";
-
     pacmanDownImage = new Image();
     pacmanDownImage.src = "./pacmanDown.png";
-
     pacmanUpImage = new Image();
     pacmanUpImage.src = "./pacmanUp.png";
-
     pacmanLeftImage = new Image();
     pacmanLeftImage.src = "./pacmanLeft.png";
-
     pacmanRightImage = new Image();
     pacmanRightImage.src = "./pacmanRight.png";
 }
-
 function loadMap() {
     walls.clear();
     foods.clear();
     ghosts.clear();
-
     for (let r = 0; r < rowCount; r++) {
         for (let c = 0; c < columnCount; c++) {
             const row = tileMap[r];
-            if (!row) continue;
-            const tileMapChar = row[c];
-            const x = c * tileSize;
-            const y = r * tileSize;
-
-            if (tileMapChar === 'x') {
-                const wall = new Block(wallImage, x, y, tileSize, tileSize);
-                walls.add(wall);
+         if (!row) continue;
+         const tileMapChar = row[c];
+        const x = c * tileSize;
+         const y = r * tileSize;
+         if (tileMapChar === 'x') {
+            const wall = new Block(wallImage, x, y, tileSize, tileSize);
+             walls.add(wall);
             }
-            else if (tileMapChar === 'b') {
-                const ghost = new Block(blueGhostImage, x, y, tileSize, tileSize);
-                ghosts.add(ghost);
+        else if (tileMapChar === 'b') {
+        const ghost = new Block(blueGhostImage, x, y, tileSize, tileSize);
+        ghosts.add(ghost);
             }
             else if (tileMapChar === 'o') {
-                const ghost = new Block(orangeGhostImage, x, y, tileSize, tileSize);
-                ghosts.add(ghost);
+            const ghost = new Block(orangeGhostImage, x, y, tileSize, tileSize);
+            ghosts.add(ghost);
             }
             else if (tileMapChar === 'p') {
                 const ghost = new Block(pinkGhostImage, x, y, tileSize, tileSize);
@@ -150,7 +129,6 @@ function loadMap() {
         }
     }
 }
-
 function update() {
     if (gameOver) {
         return;
@@ -159,14 +137,11 @@ function update() {
     draw();
     setTimeout(update, 50);
 }
-
 function draw() {
     context.clearRect(0, 0, board.width, board.height);
-
     if (pacman) {
         context.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height);
     }
-
     for (let ghost of ghosts.values()) {
         context.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height);
     }
